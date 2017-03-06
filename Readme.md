@@ -1,11 +1,10 @@
 # Kue
 
+[![Build Status](https://travis-ci.org/Automattic/kue.svg?branch=master&style=flat)](https://travis-ci.org/Automattic/kue)
+[![npm version](https://badge.fury.io/js/kue.svg?style=flat)](http://badge.fury.io/js/kue)
+[![Dependency Status](https://img.shields.io/david/Automattic/kue.svg?style=flat)](https://david-dm.org/Automattic/kue)
 [![Join the chat at https://gitter.im/Automattic/kue](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Automattic/kue?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[![Build Status](https://travis-ci.org/Automattic/kue.svg?branch=master)](https://travis-ci.org/Automattic/kue.svg?branch=master&style=flat)
-[![Dependency Status](https://img.shields.io/david/Automattic/kue.svg?style=flat)](https://david-dm.org/Automattic/kue)
-[![npm version](https://badge.fury.io/js/kue.svg?style=flat)](http://badge.fury.io/js/kue)
-[![Stories in Ready](https://badge.waffle.io/Automattic/kue.svg?style=flat&label=ready&title=Ready)](https://waffle.io/learnboost/kue)
 
 Kue is a priority job queue backed by [redis](http://redis.io), built for [node.js](http://nodejs.org).
 
@@ -18,9 +17,6 @@ Kue is a priority job queue backed by [redis](http://redis.io), built for [node.
   - [0.8 ->  0.9](https://github.com/Automattic/kue/wiki/Upgrading-to-0.9.x)
 
 
-## Requirements
-
-  - Redis >= 2.6.12
 
 ## Installation
 
@@ -152,6 +148,8 @@ Job retry attempts are done as soon as they fail, with no delay, even if your jo
 
     // Use a function to get a customized next attempt delay value
     job.attempts(3).backoff( function( attempts, delay ){
+      //attempts will correspond to the nth attempt failure so it will start with 0
+      //delay will be the amount of the last delay, not the initial delay unless attempts === 0
       return my_customized_calculated_delay;
     })
 ```
@@ -178,7 +176,7 @@ or anything else (uses [util.inspect()](https://nodejs.org/api/util.html#util_ut
 
 ```js
 job.log({key: 'some key', value: 10});
-job.log({[1,2,3,5,8]});
+job.log([1,2,3,5,8]);
 job.log(10.1);
 ```
 
@@ -700,13 +698,17 @@ queue.create('email', {
 }).searchKeys( ['to', 'title'] ).save();
 ```
 
-Search feature is turned off by default from Kue `>=0.9.0`. Read more about this [here](https://github.com/Automattic/kue/issues/412). You should enable search indexes in you need to:
+Search feature is turned off by default from Kue `>=0.9.0`. Read more about this [here](https://github.com/Automattic/kue/issues/412). You should enable search indexes and add [reds](https://www.npmjs.com/package/reds) in your dependencies if you need to:
 
 ```javascript
 var kue = require('kue');
 q = kue.createQueue({
     disableSearch: false
 });
+```
+
+```
+npm install reds --save
 ```
 
 ### GET /stats
@@ -920,7 +922,7 @@ When contributing, follow the simple rules:
 
 * Don't violate [DRY](http://programmer.97things.oreilly.com/wiki/index.php/Don%27t_Repeat_Yourself) principles.
 * [Boy Scout Rule](http://programmer.97things.oreilly.com/wiki/index.php/The_Boy_Scout_Rule) needs to have been applied.
-* Your code should look like all the other code – this project should look like it was written by one man, always.
+* Your code should look like all the other code – this project should look like it was written by one person, always.
 * If you want to propose something – just create an issue and describe your question with as much description as you can.
 * If you think you have some general improvement, consider creating a pull request with it.
 * If you add new code, it should be covered by tests. No tests – no code.
