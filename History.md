@@ -1,3 +1,32 @@
+0.11.5 / 2016-11-05
+===================
+
+* Fix even more redis command callbacks
+* Fix redis commands SLC integration #978
+
+
+0.11.4 / 2016-10-21
+===================
+
+* adding reds module to optional dependencies
+
+
+0.11.3 / 2016-10-21
+===================
+
+* Fix making reds module optional, #969
+
+
+0.11.2 / 2016-10-14
+===================
+
+* Update packages to remove CVEs, #932
+* Make reds an optional dependency, #922
+* Remove unnecessary dependency to lodash-deep, #921
+* Expose shutdown in process worker ctx, #912
+* Add ioredis support to watchStuckJobs, #884
+
+
 0.11.1 / 2016-06-15
 ===================
 
